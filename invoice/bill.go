@@ -87,7 +87,7 @@ func (b *Bill) makeHeader() func() {
 
 		b.pdf.SetFont(b.config.Business.SansFont, "BI", 28)
 		if b.config.Business.ImageFile != "" {
-		b.pdf.ImageOptions(b.config.Business.ImageFile, 0, 10, 100, 0, false, gofpdf.ImageOptions{}, 0, "")
+			b.pdf.ImageOptions(b.config.Business.ImageFile, 0, 10, 100, 0, false, gofpdf.ImageOptions{}, 0, "")
 		}
 
 		// Invoice Text
@@ -294,6 +294,9 @@ func (b *Bill) drawBillablesTable(headers []string, billables []BillableItem, wi
 
 // drawBankDetails renders the table that contains the bank details.
 func (b *Bill) drawBankDetails() {
+	if b.config.Bank == nil {
+		return
+	}
 	b.pdf.Ln(20)
 	b.pdf.SetFont(b.config.Business.SerifFont, "B", 14)
 	b.darkText()
