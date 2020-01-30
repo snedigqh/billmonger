@@ -7,6 +7,7 @@ import (
 	"regexp"
 	"strconv"
 	"text/template"
+	"time"
 
 	"github.com/jinzhu/now"
 	"golang.org/x/text/language"
@@ -108,6 +109,9 @@ func ParseConfig(filename string, billingDate string) (*BillingConfig, error) {
 	billTime := now.New(now.MustParse(billingDate))
 
 	funcMap := template.FuncMap{
+		"today": func() string {
+			return time.Now().Format("01/02/06")
+		},
 		"endOfNextMonth": func() string {
 			return billTime.EndOfMonth().AddDate(0, 1, -1).Format("01/02/06")
 		},
