@@ -67,18 +67,20 @@ func (b *BillableItem) Strings() []string {
 }
 
 type BankDetails struct {
-	TransferType string `yaml:"transfer_type"`
-	Name         string
-	Address      string
-	AccountType  string `yaml:"account_type"`
-	IBAN         string
-	SortCode     string `yaml:"sort_code"`
-	SWIFTBIC     string `yaml:"swift_bic"`
+	TransferType  string `yaml:"transfer_type"`
+	Name          string
+	Address       string
+	AccountType   string `yaml:"account_type"`
+	AccountNumber string `yaml:"account_number"`
+	RoutingNumber string `yaml:"routing_number"`
+	IBAN          string
+	SortCode      string `yaml:"sort_code"`
+	SWIFTBIC      string `yaml:"swift_bic"`
 }
 
 func (b *BankDetails) Strings() []string {
 	return []string{
-		b.TransferType, b.Name, b.Address, b.AccountType, b.IBAN, b.SortCode, b.SWIFTBIC,
+		b.TransferType, b.Name, b.Address, b.AccountType, b.AccountNumber, b.RoutingNumber, b.IBAN, b.SortCode, b.SWIFTBIC,
 	}
 }
 
@@ -126,7 +128,7 @@ func ParseConfig(filename string, billingDate string) (*BillingConfig, error) {
 
 	t, err := template.New("billing.yaml").Funcs(funcMap).ParseFiles(filename)
 	if err != nil {
-		return nil, fmt.Errorf("Error Parsing template '%s': %s", filename, err.Error())
+		return nil, fmt.Errorf("error Parsing template '%s': %s", filename, err.Error())
 	}
 
 	buf := bytes.NewBuffer(make([]byte, 0, 65535))
